@@ -84,10 +84,6 @@ const MetaFlixLanding = () => {
         {isMenuOpen && (
           <div className="absolute top-full left-0 right-0 bg-black border-t border-gray-800 md:hidden">
             <div className="px-4 py-4 space-y-4">
-              <select className="w-full bg-transparent border border-gray-600 rounded px-3 py-2">
-                <option className="bg-black">English</option>
-                <option className="bg-black">العربية</option>
-              </select>
               <button className="w-full bg-red-600 hover:bg-red-700 px-4 py-2 rounded font-medium transition-colors">
                 Sign In
               </button>
@@ -101,7 +97,7 @@ const MetaFlixLanding = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-red-900/20 via-purple-900/20 to-blue-900/20"></div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_black_70%)]"></div>
 
-        <div className="relative z-10 text-center max-w-4xl mx-auto">
+        <div className="relative z-10 text-center items-center justify-center flex flex-col max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
             Endless entertainment.
             <br />
@@ -120,6 +116,13 @@ const MetaFlixLanding = () => {
               membership.
             </p>
 
+            <button
+              onClick={() => router.push("/auth/signup")}
+              className="w-full bg-red-600 hover:bg-red-700 px-6 py-3 rounded font-medium transition-colors flex items-center justify-center gap-2"
+            >
+              Get Started <Play size={20} />
+            </button>
+
             <div className="flex flex-col md:flex-row gap-4 max-w-lg mx-auto">
               {/* <input
                 type="email"
@@ -128,12 +131,6 @@ const MetaFlixLanding = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 className="flex-1 px-4 py-3 bg-black/50 border border-gray-600 rounded text-white placeholder-gray-400 focus:outline-none focus:border-white"
               /> */}
-              <button
-                onClick={() => router.push("/auth/signup")}
-                className="bg-red-600 hover:bg-red-700 px-6 py-3 rounded font-medium transition-colors flex items-center justify-center gap-2"
-              >
-                Get Started <Play size={20} />
-              </button>
             </div>
           </div>
         </div>
@@ -261,7 +258,7 @@ const MetaFlixLanding = () => {
               /> */}
               <button
                 onClick={() => router.push("/auth/signup")}
-                className="bg-red-600 hover:bg-red-700 px-6 py-3 rounded font-medium transition-colors flex items-center justify-center gap-2"
+                className="bg-red-600 hover:bg-red-700 px-6 py-3 rounded font-medium transition-colors flex items-center justify-center gap-2 w-full"
               >
                 Get Started <Play size={20} />
               </button>
