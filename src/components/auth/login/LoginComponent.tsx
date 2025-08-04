@@ -152,7 +152,7 @@ const LoginComponent = () => {
             <div className="mt-16 text-gray-400">
               <span>New to MetaFlix? </span>
               <button
-                // onClick={onSignUp}
+                onClick={() => router.push("/auth/signup")}
                 className="text-white hover:underline font-medium"
               >
                 Sign up now

@@ -64,10 +64,6 @@ const MetaFlixLanding = () => {
           </div>
 
           <div className="hidden md:flex items-center space-x-6">
-            <select className="bg-transparent border border-gray-600 rounded px-3 py-1 text-sm">
-              <option className="bg-black">English</option>
-              <option className="bg-black">العربية</option>
-            </select>
             <button
               onClick={() => router.push("auth/login")}
               className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded font-medium transition-colors"
@@ -125,14 +121,17 @@ const MetaFlixLanding = () => {
             </p>
 
             <div className="flex flex-col md:flex-row gap-4 max-w-lg mx-auto">
-              <input
+              {/* <input
                 type="email"
                 placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="flex-1 px-4 py-3 bg-black/50 border border-gray-600 rounded text-white placeholder-gray-400 focus:outline-none focus:border-white"
-              />
-              <button className="bg-red-600 hover:bg-red-700 px-6 py-3 rounded font-medium transition-colors flex items-center justify-center gap-2">
+              /> */}
+              <button
+                onClick={() => router.push("/auth/signup")}
+                className="bg-red-600 hover:bg-red-700 px-6 py-3 rounded font-medium transition-colors flex items-center justify-center gap-2"
+              >
                 Get Started <Play size={20} />
               </button>
             </div>
@@ -255,12 +254,15 @@ const MetaFlixLanding = () => {
             </p>
 
             <div className="flex flex-col md:flex-row gap-4 max-w-lg mx-auto">
-              <input
+              {/* <input
                 type="email"
                 placeholder="Email address"
                 className="flex-1 px-4 py-3 bg-gray-800 border border-gray-600 rounded text-white placeholder-gray-400 focus:outline-none focus:border-white"
-              />
-              <button className="bg-red-600 hover:bg-red-700 px-6 py-3 rounded font-medium transition-colors flex items-center justify-center gap-2">
+              /> */}
+              <button
+                onClick={() => router.push("/auth/signup")}
+                className="bg-red-600 hover:bg-red-700 px-6 py-3 rounded font-medium transition-colors flex items-center justify-center gap-2"
+              >
                 Get Started <Play size={20} />
               </button>
             </div>
@@ -327,13 +329,6 @@ const MetaFlixLanding = () => {
                 Contact Us
               </a>
             </div>
-          </div>
-
-          <div className="mb-8">
-            <select className="bg-transparent border border-gray-600 rounded px-3 py-2 text-sm text-gray-400">
-              <option className="bg-black">English</option>
-              <option className="bg-black">العربية</option>
-            </select>
           </div>
 
           <p className="text-gray-400 text-sm">MetaFlix Nigeria</p>
