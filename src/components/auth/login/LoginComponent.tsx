@@ -45,6 +45,8 @@ const LoginComponent = () => {
         description: "Redirecting to your dashboard...",
       });
       setIsLoading(false);
+      //   middleware handles the redirect to the user page on window reload
+      //
       window.location.reload();
     }
   }, [LoginQuery.isSuccess]);

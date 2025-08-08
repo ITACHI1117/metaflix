@@ -12,6 +12,7 @@ import {
   Menu,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const MetaFlixLanding = () => {
   const [email, setEmail] = useState("");
@@ -56,7 +57,7 @@ const MetaFlixLanding = () => {
     <div className="min-h-screen bg-black text-white">
       {/* Header */}
       <header className="relative z-50 px-4 py-4 md:px-8">
-        <nav className="flex items-center justify-between max-w-7xl mx-auto">
+        <nav className="flex items-center justify-between  mx-auto">
           <div className="flex items-center">
             <h1 className="text-2xl md:text-3xl font-bold text-red-600">
               METAFLIX
@@ -91,20 +92,26 @@ const MetaFlixLanding = () => {
           </div>
         )}
       </header>
-
+      <img
+        src={"/images/metafliximg.webp"}
+        alt="metaflix"
+        width={100}
+        height={100}
+        className="w-full h-[100vh] absolute object-cover"
+      />
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-4">
+      <section className="relative min-h-screen flex items-center justify-start px-8">
         <div className="absolute inset-0 bg-gradient-to-br from-red-900/20 via-purple-900/20 to-blue-900/20"></div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_black_70%)]"></div>
 
-        <div className="relative z-10 text-center items-center justify-center flex flex-col max-w-4xl mx-auto">
+        <div className="relative z-10 text-start items-start justify-start flex flex-col max-w-4xl">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
             Endless entertainment.
             <br />
             <span className="text-red-600">Bite-sized brilliance.</span>
           </h1>
 
-          <p className="text-lg md:text-xl mb-8 text-gray-300 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl mb-8 text-gray-300 max-w-2xl">
             Discover trending short videos, follow your favorite creators, and
             dive into a world of endless entertainment. Watch anywhere. Cancel
             anytime.
@@ -120,7 +127,7 @@ const MetaFlixLanding = () => {
               onClick={() => router.push("/auth/signup")}
               className="w-full bg-red-600 hover:bg-red-700 px-6 py-3 rounded font-medium transition-colors flex items-center justify-center gap-2"
             >
-              Get Started <Play size={20} />
+              Get Started
             </button>
 
             <div className="flex flex-col md:flex-row gap-4 max-w-lg mx-auto">
@@ -143,16 +150,23 @@ const MetaFlixLanding = () => {
           <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
             <div>
               <h2 className="text-3xl md:text-5xl font-bold mb-6">
-                Enjoy on your TV.
+                Enjoy on your PC.
               </h2>
               <p className="text-lg md:text-xl text-gray-300">
-                Watch on Smart TVs, Playstation, Xbox, Chromecast, Apple TV,
-                Blu-ray players, and more.
+                Watch on Laptops, PCs, Xbox, Chromecast, Apple TV, Blu-ray
+                players, and more.
               </p>
             </div>
             <div className="relative">
-              <div className="bg-gradient-to-br from-red-600 to-purple-600 rounded-lg p-8 aspect-video flex items-center justify-center">
-                <Play size={80} className="text-white" />
+              <div className="overflow-hidden bg-gradient-to-br from-red-600 to-purple-600 rounded-lg p-8 aspect-video flex items-center justify-center">
+                <img
+                  src={"/images/metaflix2.jpg"}
+                  alt="metaflix"
+                  width={10}
+                  height={10}
+                  className="w-full h-full  object-cover opacity-50"
+                />
+                <Play size={80} className="text-white absolute" />
               </div>
             </div>
           </div>
@@ -161,7 +175,14 @@ const MetaFlixLanding = () => {
           <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
             <div className="order-2 md:order-1">
               <div className="bg-gradient-to-br from-blue-600 to-green-600 rounded-lg p-8 aspect-video flex items-center justify-center">
-                <Smartphone size={80} className="text-white" />
+                <img
+                  src={"/images/metaflix4.jpg"}
+                  alt="metaflix"
+                  width={10}
+                  height={10}
+                  className="w-full h-full  object-cover opacity-50"
+                />
+                <Smartphone size={80} className="text-white absolute" />
               </div>
             </div>
             <div className="order-1 md:order-2">
@@ -169,8 +190,7 @@ const MetaFlixLanding = () => {
                 Watch everywhere.
               </h2>
               <p className="text-lg md:text-xl text-gray-300">
-                Stream unlimited short videos on your phone, tablet, laptop, and
-                TV without paying more.
+                Stream unlimited short videos on your phone, tablet.
               </p>
             </div>
           </div>
@@ -182,32 +202,21 @@ const MetaFlixLanding = () => {
                 Create your own content.
               </h2>
               <p className="text-lg md:text-xl text-gray-300">
-                Join millions of creators. Upload your videos, build your
-                audience, and monetize your content.
+                Join millions of users. watch creators videos, and enjoy
+                unlimited content.
               </p>
             </div>
             <div className="relative">
               <div className="bg-gradient-to-br from-yellow-600 to-red-600 rounded-lg p-8 aspect-video flex items-center justify-center">
-                <Users size={80} className="text-white" />
+                <img
+                  src={"/images/metaflix3.jpeg"}
+                  alt="metaflix"
+                  width={10}
+                  height={10}
+                  className="w-full h-full  object-cover opacity-50"
+                />
+                <Users size={80} className="text-white absolute" />
               </div>
-            </div>
-          </div>
-
-          {/* Feature 4 */}
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="order-2 md:order-1">
-              <div className="bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg p-8 aspect-video flex items-center justify-center">
-                <Download size={80} className="text-white" />
-              </div>
-            </div>
-            <div className="order-1 md:order-2">
-              <h2 className="text-3xl md:text-5xl font-bold mb-6">
-                Download your favorites.
-              </h2>
-              <p className="text-lg md:text-xl text-gray-300">
-                Save your favorite videos and watch offline anywhere. Perfect
-                for commutes and travels.
-              </p>
             </div>
           </div>
         </div>
@@ -260,7 +269,7 @@ const MetaFlixLanding = () => {
                 onClick={() => router.push("/auth/signup")}
                 className="bg-red-600 hover:bg-red-700 px-6 py-3 rounded font-medium transition-colors flex items-center justify-center gap-2 w-full"
               >
-                Get Started <Play size={20} />
+                Get Started
               </button>
             </div>
           </div>
