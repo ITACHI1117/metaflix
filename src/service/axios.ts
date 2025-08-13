@@ -8,7 +8,7 @@ import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import Cookies from "js-cookie";
 
 export const axiosInstance = axios.create({
-  baseURL: "https://streamnest-880k.onrender.com/api",
+  baseURL: "https://metaaflix.onrender.com/api",
   withCredentials: true,
 });
 
@@ -30,7 +30,7 @@ axiosInstance.interceptors.response.use(
         const token = Cookies.get("accessToken");
         const RefreshToken = Cookies.get("refreshToken");
         const res = await axios.post(
-          "https://streamnest-880k.onrender.com/api/token/refresh",
+          "https://metaaflix.onrender.com/api/token/refresh",
           {
             accessToken: token,
             refreshToken: RefreshToken,

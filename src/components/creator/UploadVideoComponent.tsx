@@ -34,6 +34,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
+import { ProgressCircle } from "../ProgressCircle";
 
 export const UploadVideoComponent = ({
   view,
@@ -61,7 +62,7 @@ export const UploadVideoComponent = ({
   const [newTag, setNewTag] = useState("");
   const [videoPreview, setVideoPreview] = useState(null);
   const [dragActive, setDragActive] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState("");
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [step, setStep] = useState(1);
 
   const fileInputRef = useRef(null);
@@ -201,9 +202,10 @@ export const UploadVideoComponent = ({
           </div>
           <div>
             {isUploading && (
-              <span className="text-sm text-muted-foreground">
-                {uploadProgress}%
-              </span>
+              <ProgressCircle progress={uploadProgress} />
+              // <span className="text-sm text-muted-foreground border-5 p-2 rounded-full border-primary">
+              //   {uploadProgress}10%
+              // </span>
             )}
           </div>
         </div>

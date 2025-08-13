@@ -88,7 +88,7 @@ export default function SignUpComponent() {
       {/* Main Content */}
       <div className="flex justify-center items-start pt-20 px-4">
         <div className="w-full max-w-md">
-          {/* Sign In Form */}
+          {/* Sign Up Form */}
           <div className="bg-black bg-opacity-75 rounded px-16 py-12">
             <h2 className="text-3xl font-normal mb-7">Sign Up</h2>
 
@@ -203,7 +203,7 @@ export default function SignUpComponent() {
                 disabled={isLoading}
                 className="w-full h-12 bg-red-600 hover:bg-red-700 disabled:bg-red-800 text-white font-medium rounded mt-6 transition-colors"
               >
-                {isLoading ? "Signing In..." : "Sign In"}
+                {isLoading ? "Signing Up..." : "Sign Up"}
               </button>
 
               {/* Remember Me */}

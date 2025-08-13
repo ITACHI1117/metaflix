@@ -20,9 +20,9 @@ export const useGetAllVideos = () => {
 };
 
 // create anew video post
-export const useCreateVideoPosts = () => {
+export const useCreateVideoPosts = (onProgress) => {
   return useMutation({
-    mutationFn: (data) => createVideoPost(data),
+    mutationFn: (data) => createVideoPost(data, onProgress),
     onSuccess: (response) => {
       console.log(response);
       return response;

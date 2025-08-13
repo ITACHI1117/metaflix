@@ -7,7 +7,7 @@ export const getAllVideos = async () => {
 };
 
 // create a new video post
-export const createVideoPost = (data) => {
+export const createVideoPost = (data, onProgress) => {
   const params = {
     Title: data.title,
     Description: data.description,
@@ -21,7 +21,15 @@ export const createVideoPost = (data) => {
 
   try {
     const response = axiosInstance.post("/VideoPosts", params, {
-      headers: { "Content-Type": "multipart/form-data" }, // optional — Axios usually sets this automatically
+      headers: { "Content-Type": "multipart/form-data" },
+      onUploadProgress: (progressEvent) => {
+        const percent = Math.round(
+          (progressEvent.loaded * 100) / progressEvent.total
+        );
+        if (onProgress) {
+          onProgress(percent);
+        }
+      },
     });
     console.log(response);
     return response;

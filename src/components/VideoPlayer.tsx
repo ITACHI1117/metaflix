@@ -33,6 +33,7 @@ import {
   MessageSquare,
   Headphones,
   HeadphoneOff,
+  Star,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
@@ -45,6 +46,8 @@ import { SearchComponent } from "./SearchComponent";
 import { motion } from "framer-motion";
 import BottomDrawer from "./BottomDrawer";
 import LogOutConfirmation from "./LogOutConfirmation";
+import { RatingDialog } from "./creator/RatingDialog";
+import { useGetRating } from "@/queries/rating.queries";
 
 export const VideoPlayer = ({
   AllVideos,
@@ -57,12 +60,14 @@ export const VideoPlayer = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isRatingDialogOpen, setIsRatingDialogOpen] = useState(false);
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [selectedVideoId, setSelectedVideoId] = useState("");
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [showControls, setShowControls] = useState(true);
   const [activeNav, setActiveNav] = useState("Home");
+  const [rating, setRating] = useState(0);
 
   const router = useRouter();
 
@@ -102,6 +107,13 @@ export const VideoPlayer = ({
   const Likes = useGetLikes(videoId);
   const LikeVideo = useLikeVideo(videoId);
   const Comments = useGetComments(videoId, { enabled: true });
+  const useGetVideoRatingQuery = useGetRating(videoId);
+
+  useEffect(() => {
+    if (useGetVideoRatingQuery.isSuccess) {
+      setRating(useGetVideoRatingQuery.data.data.averageRating);
+    }
+  }, [useGetVideoRatingQuery.isSuccess]);
 
   const navigationItems = [
     { name: "Home", icon: Home },
@@ -140,6 +152,10 @@ export const VideoPlayer = ({
   }
 
   const currentVideo = AllVideos.data?.[currentVideoIndex];
+
+  const handleRatingDialog = () => {
+    setIsRatingDialogOpen(true);
+  };
 
   return (
     <div className="h-screen bg-black relative overflow-hidden">
@@ -213,109 +229,110 @@ export const VideoPlayer = ({
                 onScroll={handleScroll}
                 style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
               >
-                {AllVideos.data?.map((video, index) => (
-                  <div
-                    key={video.id}
-                    className="w-full h-full snap-start relative bg-black flex items-center justify-center"
-                  >
-                    {videosToLoad.has(index) ? (
-                      <div className="relative w-full h-full max-w-md">
-                        <video
-                          ref={(el) => (videoRefs.current[index] = el)}
-                          src={video?.videoUrl}
-                          className="w-full h-full object-contain rounded-lg"
-                          muted={isMuted}
-                          loop
-                          playsInline
-                          preload="metadata"
-                          onLoadedData={() => handleVideoLoaded(index)}
-                          onPlay={() => handleVideoPlay(index)}
-                          onPause={() => handleVideoPause(index)}
-                        />
+                {AllVideos &&
+                  AllVideos.data?.map((video, index) => (
+                    <div
+                      key={video.id}
+                      className="w-full h-full snap-start relative bg-black flex items-center justify-center"
+                    >
+                      {videosToLoad.has(index) ? (
+                        <div className="relative w-full h-full max-w-md">
+                          <video
+                            ref={(el) => (videoRefs.current[index] = el)}
+                            src={video?.videoUrl}
+                            className="w-full h-full object-contain rounded-lg"
+                            muted={isMuted}
+                            loop
+                            playsInline
+                            preload="metadata"
+                            onLoadedData={() => handleVideoLoaded(index)}
+                            onPlay={() => handleVideoPlay(index)}
+                            onPause={() => handleVideoPause(index)}
+                          />
 
-                        {/* Bottom Info */}
-                        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
-                          <div className="space-y-3">
-                            <div className="flex items-center space-x-3">
-                              <div className="w-10 h-10 rounded-full bg-primary from-purple-500 to-pink-500 flex items-center justify-center">
-                                <span className="text-white font-bold text-sm">
-                                  {currentVideo?.userName?.[0] || "A"}
+                          {/* Bottom Info */}
+                          <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+                            <div className="space-y-3">
+                              <div className="flex items-center space-x-3">
+                                <div className="w-10 h-10 rounded-full bg-primary from-purple-500 to-pink-500 flex items-center justify-center">
+                                  <span className="text-white font-bold text-sm">
+                                    {currentVideo?.userName?.[0] || "A"}
+                                  </span>
+                                </div>
+                                <div>
+                                  <p className="text-white font-semibold">
+                                    {currentVideo.userName}
+                                  </p>
+                                  <p className="text-gray-300 text-sm">
+                                    {currentVideo.creator}
+                                  </p>
+                                </div>
+                                <button className="ml-auto bg-primary hover:bg-primary/80 text-primary-foreground px-4  rounded-full text-sm font-medium transition-colors">
+                                  MetaFlix Creator🔔
+                                </button>
+                              </div>
+
+                              <h1 className="text-white text-sm leading-relaxed">
+                                {currentVideo.title}
+                              </h1>
+                              <p className="text-white text-sm leading-relaxed">
+                                {currentVideo.description}
+                              </p>
+
+                              {/* Trending Audio */}
+                              <div className="flex items-center space-x-2 text-white">
+                                <Hash className="w-4 h-4" />
+                                <span className="text-sm flex gap-2">
+                                  {video?.tags?.map((tag) => (
+                                    <span
+                                      key={tag}
+                                      className="text-white text-sm"
+                                    >
+                                      #{tag}
+                                    </span>
+                                  )) || <></>}
                                 </span>
                               </div>
-                              <div>
-                                <p className="text-white font-semibold">
-                                  {currentVideo.userName}
-                                </p>
-                                <p className="text-gray-300 text-sm">
-                                  {currentVideo.creator}
-                                </p>
-                              </div>
-                              <button className="ml-auto bg-primary hover:bg-primary/80 text-primary-foreground px-4  rounded-full text-sm font-medium transition-colors">
-                                MetaFlix Creator🔔
-                              </button>
-                            </div>
-
-                            <h1 className="text-white text-sm leading-relaxed">
-                              {currentVideo.title}
-                            </h1>
-                            <p className="text-white text-sm leading-relaxed">
-                              {currentVideo.description}
-                            </p>
-
-                            {/* Trending Audio */}
-                            <div className="flex items-center space-x-2 text-white">
-                              <Hash className="w-4 h-4" />
-                              <span className="text-sm flex gap-2">
-                                {video?.tags?.map((tag) => (
-                                  <span
-                                    key={tag}
-                                    className="text-white text-sm"
-                                  >
-                                    #{tag}
-                                  </span>
-                                )) || <></>}
-                              </span>
                             </div>
                           </div>
-                        </div>
 
-                        {/* Progress bar at bottom of video */}
-                        {videoProgress[index] && videoDurations[index] && (
-                          <div className="absolute bottom-2 left-2 right-2">
-                            <div
-                              className="w-full bg-white/30 rounded-full h-1 cursor-pointer"
-                              onClick={(e) => {
-                                const rect =
-                                  e.currentTarget.getBoundingClientRect();
-                                const percent =
-                                  (e.clientX - rect.left) / rect.width;
-                                const seekTime =
-                                  percent * videoDurations[index];
-                                seekTo(index, seekTime);
-                              }}
-                            >
+                          {/* Progress bar at bottom of video */}
+                          {videoProgress[index] && videoDurations[index] && (
+                            <div className="absolute bottom-2 left-2 right-2">
                               <div
-                                className="bg-red-500 rounded-full h-1 transition-all duration-300"
-                                style={{
-                                  width: `${
-                                    (videoProgress[index].played || 0) * 100
-                                  }%`,
+                                className="w-full bg-white/30 rounded-full h-1 cursor-pointer"
+                                onClick={(e) => {
+                                  const rect =
+                                    e.currentTarget.getBoundingClientRect();
+                                  const percent =
+                                    (e.clientX - rect.left) / rect.width;
+                                  const seekTime =
+                                    percent * videoDurations[index];
+                                  seekTo(index, seekTime);
                                 }}
-                              />
+                              >
+                                <div
+                                  className="bg-red-500 rounded-full h-1 transition-all duration-300"
+                                  style={{
+                                    width: `${
+                                      (videoProgress[index].played || 0) * 100
+                                    }%`,
+                                  }}
+                                />
+                              </div>
                             </div>
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      <div className="w-full max-w-md h-96 bg-gray-900 rounded-lg flex items-center justify-center">
-                        <div className="text-white/60 text-center">
-                          <div className="text-sm">{video.title}</div>
-                          <div className="text-xs mt-1">Loading...</div>
+                          )}
                         </div>
-                      </div>
-                    )}
-                  </div>
-                ))}
+                      ) : (
+                        <div className="w-full max-w-md h-96 bg-gray-900 rounded-lg flex items-center justify-center">
+                          <div className="text-white/60 text-center">
+                            <div className="text-sm">{video.title}</div>
+                            <div className="text-xs mt-1">Loading...</div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
               </div>
             </div>
 
@@ -324,14 +341,18 @@ export const VideoPlayer = ({
               {/* Like */}
               <div className="flex flex-col items-center group">
                 <button
-                  onClick={() => LikeVideo.mutate()}
+                  onClick={handleRatingDialog}
                   className={`w-14 h-14 rounded-full bg-muted/80 backdrop-blur-sm flex items-center justify-center
                      text-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-200 group-hover:scale-110`}
                 >
-                  <Heart className="w-7 h-7" />
+                  <Star className="w-7 h-7" />
                 </button>
                 <span className="text-foreground text-xs font-medium mt-2">
-                  {currentVideo.likes || "10"}
+                  {`${
+                    useGetVideoRatingQuery.data
+                      ? useGetVideoRatingQuery.data?.data?.averageRating
+                      : "0/5"
+                  }/5` || "3/5"}
                 </span>
               </div>
 
@@ -662,6 +683,13 @@ export const VideoPlayer = ({
       <LogOutConfirmation
         isLogoutOpen={isLogoutOpen}
         setIsLogoutOpen={setIsLogoutOpen}
+      />
+
+      {/* Rating Dialog */}
+      <RatingDialog
+        isOpen={isRatingDialogOpen}
+        setIsOpen={setIsRatingDialogOpen}
+        currentVideoId={currentVideo.id}
       />
     </div>
   );

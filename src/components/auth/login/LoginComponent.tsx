@@ -41,7 +41,7 @@ const LoginComponent = () => {
 
   useEffect(() => {
     if (LoginQuery.isSuccess) {
-      toast.success("Login successful! 🎉", {
+      toast.success("Welcome back ", {
         description: "Redirecting to your dashboard...",
       });
       setIsLoading(false);
