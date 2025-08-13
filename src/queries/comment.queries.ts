@@ -54,8 +54,6 @@ export const useCreateComments = (videoId: string, username: string | null) => {
     },
 
     onSuccess: () => {
-      toast.success("Comment Sent 😉");
-
       // Optionally refetch to get fresh data
       queryClient.invalidateQueries(["get-comments", videoId]);
     },

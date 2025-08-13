@@ -4,29 +4,16 @@ import { UseQueryResult } from "@tanstack/react-query";
 import {
   ArrowLeft,
   Heart,
-  MessageCircle,
   Play,
   Search,
   Volume2,
   VolumeOff,
-  ThumbsDown,
-  Share,
-  Zap,
-  MoreHorizontal,
-  Pause,
-  Maximize,
   Menu,
   Plus,
-  Mic,
-  ThumbsUp,
-  MoreVertical,
   Home,
   Compass,
   Film,
   User,
-  TrendingUp,
-  Share2,
-  Bookmark,
   LogOut,
   Layout,
   Hash,
@@ -77,27 +64,16 @@ export const VideoPlayer = ({
   const {
     containerRef,
     videoRefs,
-    setVolume,
-    setVideoStates,
-    likedVideos,
-    followedUsers,
     videoDurations,
     videoProgress,
-    loadedVideos,
-    videoStates,
     videosToLoad,
     isMuted,
     isPlaying,
     currentVideoIndex,
-    toggleFollow,
     handleScroll,
     handleVideoLoaded,
     handleVideoPlay,
     handleVideoPause,
-    handleVideoEnded,
-    handleVideoProgress,
-    handleVideoDuration,
-    handleVideoError,
     togglePlayPause,
     toggleMute,
     seekTo,
@@ -170,26 +146,6 @@ export const VideoPlayer = ({
                 M
               </span>
             </div>
-
-            {/* Navigation Icons */}
-            {/* {navigationItems.map((item) => {
-              const Icon = item.icon;
-              return (
-                <button
-                  key={item.name}
-                  onClick={() => setActiveNav(item.name)}
-                  className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-200 ${
-                    activeNav === item.name
-                      ? "bg-primary text-primary-foreground shadow-lg"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                  }`}
-                >
-                  <Icon className="w-6 h-6" />
-                </button>
-              );
-            })} */}
-
-            {/* dashboard  */}
             <button
               onClick={() => router.push("/creator/my-dashboard")}
               className="w-12 h-12 rounded-xl bg-primary/10 border-2 border-primary text-primary  flex items-center justify-center hover:bg-primary cursor-pointer hover:text-foreground  transition-all duration-200 "
@@ -338,7 +294,7 @@ export const VideoPlayer = ({
 
             {/* Right sidebar with actions */}
             <div className="w-20 flex flex-col items-center justify-center space-y-6  bg-card/50 backdrop-blur-sm">
-              {/* Like */}
+              {/* Rate */}
               <div className="flex flex-col items-center group">
                 <button
                   onClick={handleRatingDialog}
@@ -352,7 +308,7 @@ export const VideoPlayer = ({
                     useGetVideoRatingQuery.data
                       ? useGetVideoRatingQuery.data?.data?.averageRating
                       : "0/5"
-                  }/5` || "3/5"}
+                  }/5` || "0/5"}
                 </span>
               </div>
 
@@ -396,82 +352,6 @@ export const VideoPlayer = ({
                 </div>
               </div>
             </div>
-
-            {/* <div className="w-20 bg-primary flex flex-col items-center justify-center space-y-6 py-8">
-              
-              <motion.div
-                className="flex flex-col items-center"
-                whileTap={{ scale: 0.9 }}
-              >
-                <button
-                  className={`w-12 h-12 rounded-full flex items-center justify-center hover:bg-gray-800 ${
-                    isVideoLiked(Likes, LikeVideo)
-                      ? "bg-primary text-white-"
-                      : "text-white"
-                  } transition-colors`}
-                  onClick={() => LikeVideo.mutate()}
-                >
-                  <ThumbsUp className={`w-6 h-6 `} />
-                </button>
-                <span className="text-white text-xs font-medium mt-1">
-                  {Likes?.data?.totalLikes || "7.4K"}
-                </span>
-              </motion.div>
-
-              
-              <motion.div
-                className="flex flex-col items-center"
-                whileTap={{ scale: 0.9 }}
-              >
-                <button
-                  className="w-12 h-12 rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
-                  onClick={() => {
-                    setSelectedVideoId(currentVideo?.id);
-                    setIsOpen(true);
-                  }}
-                >
-                  <MessageCircle className="w-6 h-6 text-white" />
-                </button>
-                <span className="text-white text-xs font-medium mt-1">
-                  {Comments?.data?.length || "97"}
-                </span>
-              </motion.div>
-
-             
-              <motion.div
-                className="flex flex-col items-center"
-                whileTap={{ scale: 0.9 }}
-              >
-                <button className="w-12 h-12 rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors">
-                  <Share className="w-6 h-6 text-white" />
-                </button>
-                <span className="text-white text-xs font-medium mt-1">
-                  Share
-                </span>
-              </motion.div>
-
-              
-              <motion.div
-                className="flex flex-col items-center"
-                whileTap={{ scale: 0.9 }}
-              >
-                <button className="w-12 h-12 rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors">
-                  <Zap className="w-6 h-6 text-white" />
-                </button>
-                <span className="text-white text-xs font-medium mt-1">
-                  Remix
-                </span>
-              </motion.div>
-
-              
-              <div className="mt-4">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">
-                    {currentVideo?.userName?.[0]}
-                  </span>
-                </div>
-              </div>
-            </div> */}
           </div>
         </div>
       ) : (
@@ -485,31 +365,46 @@ export const VideoPlayer = ({
           <div className="absolute top-0 left-0 right-0 z-30 bg-gradient-to-b from-black/80 to-transparent pt-safe">
             <div className="flex items-center justify-between p-4 pt-8">
               <div className="flex items-center space-x-2 ">
-                <div className="w-10 h-10 rounded-full bg-primary mr-4  flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">
-                    {(user && user.username[0]) || "T"}
-                  </span>
-                </div>
-                <Search
-                  onClick={() => router.push("/search")}
-                  className="w-6 h-6 text-white"
-                />
-              </div>
-              <div className="flex items-center space-x-4">
-                {user && user.role == "Consumer" ? (
-                  <button
-                    onClick={() => setIsLogoutOpen((prev) => !prev)}
-                    className="w-6 h-6 text-white   "
-                  >
-                    <LogOut className="w-6 h-6 rotate-360deg" />
-                  </button>
+                {view != "video" ? (
+                  <>
+                    <div className="w-10 h-10 rounded-full bg-primary mr-4  flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">
+                        {(user && user.username[0]) || "T"}
+                      </span>
+                    </div>
+                    <Search
+                      onClick={() => router.push("/search")}
+                      className="w-6 h-6 text-white"
+                    />
+                  </>
                 ) : (
-                  <Menu
-                    onClick={() => setIsDrawerOpen((prev) => !prev)}
-                    className="w-6 h-6 text-white"
-                  />
+                  <button
+                    onClick={() => setView && setView("dashboard")}
+                    className="p-2 hover:bg-white/10 rounded-full transition-colors"
+                  >
+                    <ArrowLeft className="w-8 h-8 cursor-pointer text-white" />
+                  </button>
                 )}
               </div>
+              {view != "video" ? (
+                <div className="flex items-center space-x-4">
+                  {user && user.role == "Consumer" ? (
+                    <button
+                      onClick={() => setIsLogoutOpen((prev) => !prev)}
+                      className="w-6 h-6 text-white   "
+                    >
+                      <LogOut className="w-6 h-6 rotate-360deg" />
+                    </button>
+                  ) : (
+                    <Menu
+                      onClick={() => setIsDrawerOpen((prev) => !prev)}
+                      className="w-6 h-6 text-white"
+                    />
+                  )}
+                </div>
+              ) : (
+                ""
+              )}
             </div>
           </div>
 
@@ -590,17 +485,18 @@ export const VideoPlayer = ({
                     whileTap={{ scale: 0.9 }}
                   >
                     <button
-                      className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                        isVideoLiked(Likes, LikeVideo)
-                          ? "bg-primary text-white"
-                          : "bg-black/40"
-                      }`}
-                      onClick={() => LikeVideo.mutate()}
+                      className={`w-14 h-14 rounded-full bg-muted/80 backdrop-blur-sm flex items-center justify-center
+                     text-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-200 group-hover:scale-110`}
+                      onClick={handleRatingDialog}
                     >
-                      <Heart className={`w-7 h-7 `} />
+                      <Star className={`w-7 h-7 `} />
                     </button>
                     <span className="text-white text-xs font-medium mt-1">
-                      {Likes?.data?.totalLikes || "0"}
+                      {`${
+                        useGetVideoRatingQuery.data
+                          ? useGetVideoRatingQuery.data?.data?.averageRating
+                          : "0/5"
+                      }/5` || "0/5"}
                     </span>
                   </motion.div>
 
