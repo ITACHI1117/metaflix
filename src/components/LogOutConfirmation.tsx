@@ -10,12 +10,13 @@ import {
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import { LogUserOut } from "@/store/AuthStore";
+import useProgressBarNavigation from "@/hooks/useProgressBarNavigation";
 
 const LogOutConfirmation = ({ isLogoutOpen, setIsLogoutOpen }) => {
-  const router = useRouter();
+  const { push } = useProgressBarNavigation();
   // log user out
   const handleLogOut = () => {
-    router.push("auth/login");
+    push("auth/login");
     LogUserOut();
     console.log("logged out");
     // routerServerGlobal.

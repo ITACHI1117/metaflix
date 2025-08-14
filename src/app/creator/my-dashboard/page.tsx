@@ -37,6 +37,7 @@ import {
 import { toast } from "sonner";
 import { VideoPlayer } from "@/components/VideoPlayer";
 import DashboardSkeletonLoader from "@/components/DashboardSkeletonLoader";
+import useProgressBarNavigation from "@/hooks/useProgressBarNavigation";
 
 export default function CreatorDashboard() {
   const [view, setView] = useState("dashboard"); // dashboard, upload
@@ -49,7 +50,7 @@ export default function CreatorDashboard() {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [selectedVideo, setSelectedVideo] = useState();
-  const router = useRouter();
+  const { push, back } = useProgressBarNavigation();
 
   // Upload form state
   const [uploadData, setUploadData] = useState({
@@ -191,7 +192,7 @@ export default function CreatorDashboard() {
   const handleLogOut = () => {
     LogUserOut();
     console.log("logged out");
-    router.push("auth/login");
+    push("auth/login");
     // routerServerGlobal.
   };
 
@@ -234,7 +235,7 @@ export default function CreatorDashboard() {
           <div className="flex items-center space-x-2">
             <div className="flex items-center space-x-1">
               <button
-                onClick={() => router.back()}
+                onClick={() => back()}
                 className="p-2 hover:bg-white/10 rounded-full transition-colors cursor-pointer"
               >
                 <ArrowLeft className="w-5 h-5" />

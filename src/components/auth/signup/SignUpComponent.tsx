@@ -1,12 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { signUpSchema } from "@/schemas/signupSchema";
 import { useSignUp } from "@/queries/auth.queries";
+import useProgressBarNavigation from "@/hooks/useProgressBarNavigation";
 
 interface LoginProps {
   onSignUp?: () => void;
@@ -23,7 +23,7 @@ export default function SignUpComponent() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
-  const router = useRouter();
+  const { push } = useProgressBarNavigation();
 
   const {
     register,
@@ -37,7 +37,8 @@ export default function SignUpComponent() {
   const SubmitQuery = useSignUp();
 
   const onSubmit = async (data) => {
-    SubmitQuery.mutate({
+    setIsLoading(true);
+    const promise = SubmitQuery.mutateAsync({
       firstname: data.firstname,
       lastname: data.lastname,
       username: data.username,
@@ -45,31 +46,35 @@ export default function SignUpComponent() {
       password: data.password,
       role: "Consumer",
     });
-    setIsLoading(true);
+
+    toast.promise(promise, {
+      loading: "Creating your account...",
+      success: "Signed up successfully",
+      error: "Failed to sign up",
+    });
   };
 
   useEffect(() => {
     if (SubmitQuery.isSuccess) {
       setIsLoading(false);
-      toast.success("Sign up successful! Welcome on Board🎉");
-      router.push("/auth/login");
+      push("/auth/login");
     }
   }, [SubmitQuery.isSuccess]);
 
-  useEffect(() => {
-    if (SubmitQuery.isPending) {
-      setIsLoading(true);
-      toast.info("Creating your account...");
-    }
-  }, [SubmitQuery.isPending]);
+  // useEffect(() => {
+  //   if (SubmitQuery.isPending) {
+  //     setIsLoading(true);
+  //     toast.info("Creating your account...");
+  //   }
+  // }, [SubmitQuery.isPending]);
 
-  useEffect(() => {
-    if (SubmitQuery.isError) {
-      setIsLoading(false);
-      toast.error("Sign up failed. Please try again.");
-      console.error("Sign up error:", SubmitQuery.error);
-    }
-  }, [SubmitQuery.isError, SubmitQuery.error]);
+  // useEffect(() => {
+  //   if (SubmitQuery.isError) {
+  //     setIsLoading(false);
+  //     toast.error("Sign up failed. Please try again.");
+  //     console.error("Sign up error:", SubmitQuery.error);
+  //   }
+  // }, [SubmitQuery.isError, SubmitQuery.error]);
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -77,7 +82,7 @@ export default function SignUpComponent() {
       <header className="px-6 py-6">
         <div className="max-w-screen-xl mx-auto">
           <h1
-            onClick={() => router.push("/")}
+            onClick={() => push("/")}
             className="text-red-600 text-3xl font-bold"
           >
             METAFLIX
@@ -214,7 +219,7 @@ export default function SignUpComponent() {
             <div className="mt-16 text-gray-400">
               <span>Already have MetaFlix? </span>
               <button
-                onClick={() => router.push("/auth/login")}
+                onClick={() => push("/auth/login")}
                 className="text-white hover:underline font-medium"
               >
                 Sign In now

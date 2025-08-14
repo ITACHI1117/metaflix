@@ -22,7 +22,6 @@ import {
   HeadphoneOff,
   Star,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { toast } from "sonner";
 import CommentSection from "./CommentSection";
@@ -35,6 +34,7 @@ import BottomDrawer from "./BottomDrawer";
 import LogOutConfirmation from "./LogOutConfirmation";
 import { RatingDialog } from "./creator/RatingDialog";
 import { useGetRating } from "@/queries/rating.queries";
+import useProgressBarNavigation from "@/hooks/useProgressBarNavigation";
 
 export const VideoPlayer = ({
   AllVideos,
@@ -56,7 +56,7 @@ export const VideoPlayer = ({
   const [activeNav, setActiveNav] = useState("Home");
   const [rating, setRating] = useState(0);
 
-  const router = useRouter();
+  const { push, back } = useProgressBarNavigation();
 
   // user details
   const user = getUser();
@@ -134,7 +134,7 @@ export const VideoPlayer = ({
   };
 
   return (
-    <div className="h-screen bg-black relative overflow-hidden">
+    <div className="h-[100svh] bg-black relative overflow-hidden">
       {/* Desktop/Tablet Layout */}
       {!isMobile ? (
         <div className="flex h-full">
@@ -147,14 +147,14 @@ export const VideoPlayer = ({
               </span>
             </div>
             <button
-              onClick={() => router.push("/creator/my-dashboard")}
+              onClick={() => push("/creator/my-dashboard")}
               className="w-12 h-12 rounded-xl bg-primary/10 border-2 border-primary text-primary  flex items-center justify-center hover:bg-primary cursor-pointer hover:text-foreground  transition-all duration-200 "
             >
               <Layout className="w-6 h-6 rotate-360deg" />
             </button>
             {/* Search */}
             <button
-              onClick={() => router.push("/search")}
+              onClick={() => push("/search")}
               className="w-12 h-12 rounded-xl bg-primary/10 border-2 border-primary text-primary  flex items-center justify-center text-muted-foreground hover:bg-primary cursor-pointer hover:text-foreground hover:bg-muted transition-all duration-200 "
             >
               <Search className="w-6 h-6" />
@@ -169,7 +169,7 @@ export const VideoPlayer = ({
 
             {/* Create */}
             <button
-              onClick={() => router.push("/creator/upload")}
+              onClick={() => push("/creator/upload")}
               className="w-12 h-12 rounded-xl bg-primary/10 border-2 border-primary text-primary flex items-center justify-center hover:bg-primary hover:text-primary-foreground cursor-pointer transition-all duration-200"
             >
               <Plus className="w-6 h-6" />
@@ -373,7 +373,7 @@ export const VideoPlayer = ({
                       </span>
                     </div>
                     <Search
-                      onClick={() => router.push("/search")}
+                      onClick={() => push("/search")}
                       className="w-6 h-6 text-white"
                     />
                   </>

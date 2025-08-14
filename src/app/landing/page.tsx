@@ -12,7 +12,7 @@ import {
   Menu,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+import useProgressBarNavigation from "@/hooks/useProgressBarNavigation";
 
 const MetaFlixLanding = () => {
   const [email, setEmail] = useState("");
@@ -20,6 +20,8 @@ const MetaFlixLanding = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const router = useRouter();
+
+  const { push } = useProgressBarNavigation();
 
   const toggleFaq = (index: number) => {
     setOpenFaq(openFaq === index ? null : index);
@@ -66,7 +68,7 @@ const MetaFlixLanding = () => {
 
           <div className="hidden md:flex items-center space-x-6">
             <button
-              onClick={() => router.push("auth/login")}
+              onClick={() => push("auth/login")}
               className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded font-medium transition-colors"
             >
               Sign In
@@ -124,7 +126,7 @@ const MetaFlixLanding = () => {
             </p>
 
             <button
-              onClick={() => router.push("/auth/signup")}
+              onClick={() => push("/auth/signup")}
               className="w-full bg-red-600 hover:bg-red-700 px-6 py-3 rounded font-medium transition-colors flex items-center justify-center gap-2"
             >
               Get Started
@@ -266,7 +268,7 @@ const MetaFlixLanding = () => {
                 className="flex-1 px-4 py-3 bg-gray-800 border border-gray-600 rounded text-white placeholder-gray-400 focus:outline-none focus:border-white"
               /> */}
               <button
-                onClick={() => router.push("/auth/signup")}
+                onClick={() => push("/auth/signup")}
                 className="bg-red-600 hover:bg-red-700 px-6 py-3 rounded font-medium transition-colors flex items-center justify-center gap-2 w-full"
               >
                 Get Started

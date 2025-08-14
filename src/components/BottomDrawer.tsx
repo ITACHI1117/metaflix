@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { LogUserOut, User } from "@/store/AuthStore";
 import { Button } from "./ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
+import useProgressBarNavigation from "@/hooks/useProgressBarNavigation";
 
 export const BottomDrawer = ({
   isDrawerOpen,
@@ -14,12 +15,12 @@ export const BottomDrawer = ({
   setIsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
   user: User | null;
 }) => {
-  const router = useRouter();
+  const { push } = useProgressBarNavigation();
+
   // log user out
   const handleLogOut = () => {
-    router.push("auth/login");
+    push("auth/login");
     LogUserOut();
-    console.log("logged out");
     // routerServerGlobal.
   };
 
@@ -35,7 +36,7 @@ export const BottomDrawer = ({
           {user && user.role == "Creator" && (
             <Button
               className="cursor-pointer mb-4 w-full h-11 bg-gradient-to-r from-primary to-chart-2 hover:from-primary/90 hover:to-chart-2/90 text-white font-medium shadow transition-all duration-300 group"
-              onClick={() => router.push("creator/my-dashboard")}
+              onClick={() => push("creator/my-dashboard")}
             >
               My Videos
             </Button>

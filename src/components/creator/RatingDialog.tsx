@@ -29,9 +29,14 @@ export const RatingDialog = ({
       score: index,
     });
   };
+
+  const handleClose = () => {
+    setIsOpen(false);
+    setFilledStar(0);
+  };
   return (
     <>
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <Dialog open={isOpen} onOpenChange={handleClose}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Rate Video</DialogTitle>

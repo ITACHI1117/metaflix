@@ -7,6 +7,7 @@ import { useLogin } from "@/queries/auth.queries";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/schemas/loginSchema";
+import useProgressBarNavigation from "@/hooks/useProgressBarNavigation";
 
 export interface LoginInputs {
   email: string;
@@ -22,8 +23,7 @@ const LoginComponent = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
-  const router = useRouter();
-
+  const { push } = useProgressBarNavigation();
   const LoginQuery = useLogin();
 
   const {
@@ -33,35 +33,24 @@ const LoginComponent = () => {
   } = useForm<LoginInputs>({ resolver: zodResolver(loginSchema) });
 
   const onSubmit = async (data: LoginInputs) => {
-    LoginQuery.mutate({
+    const promise = LoginQuery.mutateAsync({
       email: data.email,
       password: data.password,
+    });
+
+    toast.promise(promise, {
+      loading: "Logging in",
+      success: "Logged in successfully",
+      error: "Failed to login",
     });
   };
 
   useEffect(() => {
     if (LoginQuery.isSuccess) {
-      toast.success("Welcome back ", {
-        description: "Redirecting to your dashboard...",
-      });
       setIsLoading(false);
-      //   middleware handles the redirect to the user page on window reload
-      //
       window.location.reload();
     }
   }, [LoginQuery.isSuccess]);
-
-  useEffect(() => {
-    if (LoginQuery.isError) {
-      const errors =
-        LoginQuery.error?.response?.data?.errors?.Authentication?.map(
-          (error) => error
-        ) || ["Invalid email or password"];
-      toast.error("Login failed", {
-        description: errors.join(", "),
-      });
-    }
-  }, [LoginQuery.isError, LoginQuery.error]);
 
   useEffect(() => {
     setIsLoading(LoginQuery.isPending);
@@ -73,7 +62,7 @@ const LoginComponent = () => {
       <header className="px-6 py-6">
         <div className="max-w-screen-xl mx-auto cursor-pointer">
           <h1
-            onClick={() => router.push("/")}
+            onClick={() => push("/")}
             className="text-red-600 text-3xl font-bold"
           >
             METAFLIX
@@ -154,7 +143,7 @@ const LoginComponent = () => {
             <div className="mt-16 text-gray-400">
               <span>New to MetaFlix? </span>
               <button
-                onClick={() => router.push("/auth/signup")}
+                onClick={() => push("/auth/signup")}
                 className="text-white hover:underline font-medium"
               >
                 Sign up now

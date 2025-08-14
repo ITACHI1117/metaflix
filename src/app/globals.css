@@ -222,3 +222,18 @@
     background-color: oklch(0.6 0.26 22.0855);
   }
 }
+
+/* nprogress custom styling */
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  background: oklch(0.5397 0.2341 22.0855); /* color of progress bar */
+  position: fixed;
+  z-index: 1031;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+}
